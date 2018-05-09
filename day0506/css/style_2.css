@@ -1,0 +1,56 @@
+h1,h2,h3,ul,p{
+	margin: 0;
+	padding: 0;
+}
+ul,li{
+	list-style: none;
+}
+a{
+	text-decoration: none;
+}
+
+html,body{
+	font: 10px/1.5 "Microsoft-Yahei", sans-serif;
+}
+
+#container{
+	display: flex;
+	width: 960px;
+	margin: 30px auto;
+}
+#title-container{
+	flex: 0 0 200px;
+	text-align: center;
+	color: #fff;
+	background: #65a5fa;
+}
+#main-info{
+	flex-grow: 1;
+	padding: 20px;
+}
+h1{
+	font-size: 2.4rem;
+	margin: 20px 0;
+}
+h2{
+	font-size: 1.8rem;
+	margin: 10px 0;
+}
+h3{
+	font-size: 1.6rem;
+}
+#info-list{
+	font-size: 1.4rem;
+}
+#info-list>li{
+	margin-bottom: 20px;
+}
+.info-sub-list-1 li{
+	display: inline-block;
+	margin-right: 20px;
+
+}
+.info-sub-list-1 span{
+	font-weight: 700;
+	margin-right: 10px;
+}

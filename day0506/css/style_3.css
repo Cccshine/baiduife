@@ -1,0 +1,79 @@
+h1,h2,h3,ul,p{
+	margin: 0;
+	padding: 0;
+}
+ul,li{
+	list-style: none;
+}
+a{
+	text-decoration: none;
+}
+
+html,body{
+	font: 10px/1.5 "Microsoft-Yahei", sans-serif;
+}
+
+#container{
+	/* display: flex; */
+	width: 960px;
+	margin: 30px auto;
+}
+#title-container{
+	height: 60px;
+	line-height: 60px;
+	text-indent: 2em;
+	color: #fff;
+	background:#858585;
+}
+h1{
+	font-size: 2.4rem;
+}
+h2{
+	font-size: 1.8rem;
+	margin: 10px 0;
+}
+h3{
+	font-size: 1.6rem;
+}
+#info-list{
+	font-size: 1.4rem;
+}
+#info-list>li{
+	overflow: hidden;
+	margin-bottom: 2px;
+}
+
+#info-list h2,#info-list ul{
+	float: left;
+}
+#info-list h2{
+	height: 100px;
+	line-height: 100px;
+	padding: 0 20px;
+	margin: 0;
+	background: #d6d6d6;
+}
+.info-sub-list-1,
+.info-sub-list-2 {
+	padding-left: 20px;
+}
+.info-sub-list-1 li{
+	display: inline-block;
+	margin-right: 20px;
+
+}
+.info-sub-list-1 span{
+	font-weight: 700;
+	margin-right: 10px;
+}
+
+.info-sub-list-2 li{
+	overflow: hidden;
+}
+.info-sub-list-2 h3{
+	float: left;
+	margin-right: 10px;
+}
+.info-sub-list-2 p{
+	float: left;
+}
