@@ -1,0 +1,444 @@
+html{
+	height: 100%;
+}
+body{
+	min-width: 800px;
+	margin: 0;
+	height: 100%;
+}
+
+/* ------------------------------------- 圣杯布局开始 --------------------------------------- */
+/* 左右position+中间margin + center放最前面 */
+/* 浏览器窗口小于600时，center将出现问题（因为margin是固定的） */
+/* #left{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 300px;
+	height: 100%;
+	background: #ccf1ff;
+}
+#center{
+	margin: 0 300px;
+	height: 100%;
+	background: #e4ffcc;
+}
+#right{
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 300px;
+	height: 100%;
+	background: #fcc;
+} */
+
+
+
+/* 三position + center放最前面*/
+/* 浏览器窗口小于600时，center将出现问题（因为margin是固定的） */
+/* #left{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 300px;
+	height: 100%;
+	background: #ccf1ff;
+}
+#center{
+	position: absolute;
+	left: 300px;
+	right: 300px;
+	height: 100%;
+	background: #e4ffcc;
+}
+#right{
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 300px;
+	height: 100%;
+	background: #fcc;
+} */
+
+
+
+/* relative + float + margin负值  + center放最前面*/
+/* 经典圣杯布局 */
+/* body{
+	padding: 0 300px;
+}
+#left{
+	float: left;
+	width: 300px;
+	height: 100%;
+	margin-left: -100%;
+	position: relative;
+	left: -300px;
+	background: #ccf1ff;
+}
+#center{
+	float: left;
+	width: 100%;
+	height: 100%;
+	background: #e4ffcc;
+}
+#right{
+	float: left;
+	width: 300px;
+	height: 100%;
+	margin-left: -300px;
+	position: relative;
+	right: -300px;
+	background: #fcc;
+} */
+
+
+
+/* relative + float + margin负值  + center放最前面*/
+/* 经典圣杯布局略改良 */
+/* body{
+	padding: 0 300px;
+}
+#left{
+	float: left;
+	width: 300px;
+	height: 100%;
+	margin-left: -100%;
+	position: relative;
+	left: -300px;
+	background: #ccf1ff;
+}
+#center{
+	float: left;
+	width: 100%;
+	height: 100%;
+	background: #e4ffcc;
+}
+#right{
+	float: left;
+	width: 300px;
+	height: 100%;
+	重点在这，使用负的margin-right，便不需要再相对定位
+	margin-right: -300px; 
+	background: #fcc;
+} */
+
+
+
+/* float + margin负值  + border-box + center放最前面*/
+/* 经典圣杯布局改良（需要支持box-sizing属性） */
+#left{
+	float: left;
+	width: 300px;
+	height: 100%;
+	margin-left: -100%;
+	background: #ccf1ff;
+}
+#center{
+	/* 重点在这,使用border-box后设置的width将包含border,padding的宽度在内 */
+	box-sizing: border-box;
+	float: left;
+	width: 100%;
+	height: 100%;
+	padding: 0 300px;
+	background: #e4ffcc;
+}
+#right{
+	float: left;
+	width: 300px;
+	height: 100%;
+	margin-left: -300px;
+	background: #fcc;
+}
+
+
+
+/* flex  + center放最前面*/
+/* body{
+	display: flex;
+}
+#left{
+	flex: 0 0 300px;
+	order: 1;
+	height: 100%;
+	background: #ccf1ff;
+}
+#center{
+	flex: 1 1 auto;
+	order: 2;
+	height: 100%;
+	background: #e4ffcc;
+}
+#right{
+	flex: 0 0 300px;
+	order: 3;
+	height: 100%;
+	background: #fcc;
+} */
+
+/* ------------------------------------- 圣杯布局结束 --------------------------------------- */
+
+
+
+/* ------------------------------------- 双飞翼布局开始 --------------------------------------- */
+/* float + margin负值  + center放最前面*/
+/* 双飞翼布局 */
+/* #left{
+	float: left;
+	width: 300px;
+	height: 100%;
+	margin-left: -100%;
+	background: #ccf1ff;
+}
+#center{
+	float: left;
+	width: 100%;
+	height: 100%;
+	background: #e4ffcc;
+}
+#inner-center{
+	padding: 0 300px;
+}
+#right{
+	float: left;
+	width: 300px;
+	height: 100%;
+	margin-left: -300px;
+	background: #fcc;
+} */
+
+/* ------------------------------------- 双飞翼布局结束 --------------------------------------- */
+
+
+
+/* ------------------------------------- center放中间布局开始 --------------------------------------- */
+/* 左右position+中间margin + center放中间 */
+/* #left{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 300px;
+	height: 100%;
+	background: #ccf1ff;
+}
+#center{
+	margin: 0 300px;
+	height: 100%;
+	background: #e4ffcc;
+}
+#right{
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 300px;
+	height: 100%;
+	background: #fcc;
+} */
+
+
+
+/* relative + float + margin负值 + center放中间 */
+/* 窗口变小时有问题 */
+/* body{
+	padding: 0 300px;
+	min-width: auto;
+}
+#left{
+	float: left;
+	width: 300px;
+	height: 100%;
+	background: #ccf1ff;
+	position: relative;
+	left: -300px;
+}
+#center{
+	float: left;
+	margin-left: -300px;
+	width: 100%;
+	height: 100%;
+	min-width: 200px;
+	background: #e4ffcc;
+}
+#right{
+	float: left;
+	width: 300px;
+	height: 100%;
+	margin-right: -300px;
+	background: #fcc;
+} */
+
+
+
+/* relative + float + margin负值 + border-box + center放中间 */
+/* 窗口变小时有问题 */
+/* #left{
+	float: left;
+	width: 300px;
+	height: 100%;
+	background: #ccf1ff;
+	position: relative;
+	z-index: 1;
+}
+#center{
+	box-sizing: border-box;
+	float: left;
+	margin-left: -300px;
+	padding: 0 300px;
+	width: 100%;
+	height: 100%;
+	min-width: 200px;
+	background: #e4ffcc;
+}
+#right{
+	float: left;
+	width: 300px;
+	height: 100%;
+	margin-left: -300px;
+	background: #fcc;
+} */
+
+
+
+/* grid + center放中间 */
+/* body{
+	display: grid;
+	grid-template-columns: 300px auto 300px;
+}
+#left{
+	grid-column: 1 / 2;
+	height: 100%;
+	background: #ccf1ff;
+}
+#center{
+	grid-column: 2 / 3;
+	height: 100%;
+	background: #e4ffcc;
+}
+#right{
+	grid-column: 3 / 4;
+	height: 100%;
+	background: #fcc;
+} */
+
+/* ------------------------------------- center放中间布局结束 --------------------------------------- */
+
+
+
+
+/* ------------------------------------- center放最后布局开始 --------------------------------------- */
+
+/* 左右float+中间margin+center放最后 */
+/* #left{
+	float: left;
+	width: 300px;
+	height: 100%;
+	background: #ccf1ff;
+}
+#center{
+	margin: 0 300px;
+	height: 100%;
+	background: #e4ffcc;
+}
+#right{
+	float: right;
+	width: 300px;
+	height: 100%;
+	background: #fcc;
+} */
+
+
+
+/* 左右float+ 生成BFC+center放最后*/
+/* #left{
+	float: left;
+	width: 300px;
+	height: 100%;
+	background: #ccf1ff;
+}
+#center{
+	height: 100%;
+	background: #e4ffcc;
+	overflow: hidden;
+}
+#right{
+	float: right;
+	width: 300px;
+	height: 100%;
+	background: #fcc;
+} */
+
+
+
+/* 左右position+中间margin+center放最后 */
+/* 浏览器窗口较小时，center将出现问题（因为margin是固定的） */
+/* #left{
+	position: absolute;
+	left: 0;
+	width: 300px;
+	height: 100%;
+	background: #ccf1ff;
+}
+#center{
+	margin: 0 300px;
+	height: 100%;
+	background: #e4ffcc;
+}
+#right{
+	position: absolute;
+	right: 0;
+	width: 300px;
+	height: 100%;
+	background: #fcc;
+} */
+
+
+
+/* 三position + center放最后*/
+/* 浏览器窗口较小时，center将出现问题*/
+/* #left{
+	position: absolute;
+	left: 0;
+	width: 300px;
+	height: 100%;
+	background: #ccf1ff;
+}
+#center{
+	position: absolute;
+	left: 300px;
+	right: 300px;
+	height: 100%;
+	background: #e4ffcc;
+}
+#right{
+	position: absolute;
+	right: 0;
+	width: 300px;
+	height: 100%;
+	background: #fcc;
+} */
+
+
+
+/* flex + center放最后 */
+/* body{
+	display: flex;
+}
+#left{
+	flex: 0 0 300px;
+	order: 1;
+	height: 100%;
+	background: #ccf1ff;
+}
+#center{
+	flex: 1 1 auto;
+	order: 2;
+	height: 100%;
+	background: #e4ffcc;
+}
+#right{
+	flex: 0 0 300px;
+	order: 3;
+	height: 100%;
+	background: #fcc;
+} */
+

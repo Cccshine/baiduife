@@ -1,0 +1,94 @@
+html{
+	height: 100%;
+}
+body{
+	margin: 0;
+	height: 100%;
+}
+
+/* 左侧float + 右侧margin */
+/* #left{
+	float: right;
+	width: 300px;
+	height: 100%;
+	background: #ccf1ff;x
+}
+#right{
+	margin-right: 300px;
+	height: 100%;
+	background: #fcc;
+} */
+
+
+
+/* 左侧float + 生成BFC */
+/* #left{
+	float: right;
+	width: 300px;
+	height: 100%;
+	background: #ccf1ff;
+}
+#right{
+	height: 100%;
+	background: #fcc;
+	overflow: hidden;
+} */
+
+/* 左侧absolute + 右侧margin */
+/* #left{
+	position: absolute;
+	right: 0;
+	width: 300px;
+	height: 100%;
+	background: #ccf1ff;
+}
+#right{
+	height: 100%;
+	margin-right: 300px;
+	background: #fcc;
+} */
+
+/* 双position */
+/* #left{
+	position: absolute;
+	left: 0;
+    right: 300px;
+	height: 100%;
+	background: #fcc;
+}
+#right{
+	position: absolute;
+	right: 0;
+	width: 300px;
+	height: 100%;
+	background: #ccf1ff;
+} */
+
+/* flex */
+body{
+	display: flex;
+}
+#left{
+	flex: 1 1 auto;
+	height: 100%;
+	background: #fcc;
+}
+#right{
+	flex: 0 0 300px;
+	height: 100%;
+	background: #ccf1ff;
+}
+
+/* grid */
+/* body{
+	display: grid;
+	grid-template-columns: auto 300px;
+}
+#left{
+	height: 100%;
+	background: #fcc;
+}
+#right{
+	height: 100%;
+	background: #ccf1ff;
+} */

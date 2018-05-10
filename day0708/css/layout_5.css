@@ -1,0 +1,118 @@
+html{
+	height: 100%;
+}
+body{
+	margin: 0;
+	height: 100%;
+}
+
+/* 利用正的很大的padding-bottom与负的很大的margin-bottom对冲实现， 
+正的很大的padding-bottom将父级container的高度撑得很高，然后再用与padding相同的负值来设置margin-bottom，使container的边界恢复到正确的地方
+但是视觉上colunm还是很高，再对container使用overflow:hidden裁掉正确边界之外的部分，就得到了三列等高，高度为三列中最高的那一列 */
+/* #container{
+	width: 960px;
+	margin: 30px auto;
+	overflow: hidden;
+}
+.colunm{
+	float: left;
+	padding-bottom: 9999px;
+	margin-bottom: -9999px;
+}
+#colunm-1{
+	background: #fcc;
+}
+#colunm-2{
+	background: #ccf1ff;
+}
+#colunm-3{
+	background: #e4ffcc;
+} */
+
+
+
+/* 利用背景嵌套与相对定位实现 */
+/* 不管哪一列的高度最高，外面那三层背景的高度都会随最高列变化而变化，此时比较矮的那两列会出现最内层背景色，所以需要处理 */
+/* 处理的方式是将背景层向左相对定位，colunm3-back为第三列背景不需要移动； colunm2-back是第二列背景，需要让出第三列，所以向左移动300（此时colunm1-back作为colunm2-back的子级也会左移300）*/
+/* 同理，colunm1-back是第一列的背景，需要让出第二列和第三列，上一步已经让出第三列，所以向左移动460 */
+/* 由于colunm-1，colunm-2，colunm-3都是背景层的子元素，所以此时这三列已经累计向左移动了300+460=760，所以需要将它们向右移回来 */
+/* #container{
+	width: 960px;
+	margin: 30px auto;
+	overflow: hidden;
+}
+.colunm-back{
+ 	position: relative;
+}
+
+#colunm1-back{
+	right: 460px;
+	background: #e4ffcc;
+}
+#colunm2-back{
+	right: 300px;
+	background: #ccf1ff;
+}
+#colunm3-back{
+	background: #fcc;
+}
+
+.colunm{
+	float: left;
+	position: relative;
+	left: 760px;
+}
+
+#colunm-1{
+	width: 200px;
+	background: #e4ffcc;
+}
+#colunm-2{
+	width: 460px;
+	background: #ccf1ff;
+}
+#colunm-3{
+	width: 300px;
+	background: #fcc;
+}
+
+.clearfix:after{
+	content: "";
+	display: block;
+	clear: both;
+} */
+
+/* flex */
+#container{
+	width: 960px;
+	margin: 30px auto;
+	display: flex;
+	align-items: stretch;
+}
+#colunm-1{
+	background: #fcc;
+}
+#colunm-2{
+	background: #ccf1ff;
+}
+#colunm-3{
+	background: #e4ffcc;
+} 
+
+/* grid */
+/* #container{
+	width: 960px;
+	margin: 30px auto;
+	display: grid;
+	grid-template-columns: 1fr 2fr 1fr;
+	align-items: stretch;
+}
+#colunm-1{
+	background: #fcc;
+}
+#colunm-2{
+	background: #ccf1ff;
+}
+#colunm-3{
+	background: #e4ffcc;
+}  */
