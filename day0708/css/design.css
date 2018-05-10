@@ -27,17 +27,17 @@ h1{
 
 /* header start */
 header{
-	height: 60px;
-	line-height: 60px;
 	color: #fff;
 	background: #333;
 }
 header h1{
 	float: left;
+	line-height: 60px;
 }
 #link-list{
 	font-size: 1.4rem;
 	float: right;
+	margin-top: 10px;
 }
 #link-list li{
 	display: inline-block;
@@ -62,6 +62,7 @@ header h1{
 	display: flex;
 	align-items: flex-end;
 	justify-content: flex-end;
+	margin-bottom: 10px;
 }
 #banner-sign-list li{
 	display: inline-block;
@@ -75,7 +76,7 @@ header h1{
 	opacity: .8;
 }
 #banner-sign-list .active{
-	padding-top: 10px;
+	padding-top: 15px;
 	background: #e0f1d6;
 	opacity: 1;
 }
@@ -110,12 +111,13 @@ header h1{
 #content{
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	/* justify-content: space-between; */
 	font-size: 1.4rem;
 }
 #content section{
+	flex: 1 1 auto;
 	padding: 80px;
-	margin-bottom: 10px;
+	margin: 5px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 }
@@ -127,6 +129,7 @@ footer{
 	text-align: center;
 	color: #fff;
 	font-size: 1.4rem;
+	margin-top: 20px;
 	padding-top: 20px;
 	background: #666;
 }
