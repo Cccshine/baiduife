@@ -214,7 +214,6 @@ body {
     display: flex;
     flex: 1 1 auto;
     height: 100%;
-    overflow: auto;
 }
 
 #column-friends {
@@ -451,7 +450,10 @@ body {
 /* column-friends start */
 
 #column-friends {
+    display: flex;
+    flex-direction: column;
     padding: 15px 0;
+    overflow: hidden;
 }
 
 #search-input {
@@ -484,7 +486,13 @@ body {
 }
 
 #friends-list {
+	flex: 1;
+	margin-left: -1px;
+	/* 隐藏滚动条 */
+	margin-right: -17px;
     border: 1px solid #e6e9ec;
+    border-left: none;
+    overflow-y: auto;
 }
 
 #friends-list li {
@@ -520,7 +528,6 @@ body {
 }
 
 #friends-list .active {
-    margin-left: -1px;
     border-left: 3px solid #299ef5;
 }
 
@@ -545,12 +552,15 @@ body {
 
 #column-messages {
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 #column-messages-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex: 0 0 80px;
     height: 80px;
     padding: 0 30px;
     border-bottom: 1px solid #e5e8ee;
@@ -616,7 +626,10 @@ body {
 }
 
 #message-container {
+	flex: 1 1 auto;
     padding: 26px 60px 0 30px;
+    margin-right: -17px;
+    overflow-y: auto;
 }
 
 .message-list li {
@@ -694,14 +707,15 @@ body {
 
 .split-line {
     position: relative;
-    margin-bottom: 24px;
+    margin: 0 -60px 24px -30px;
     text-align: center;
     font-size: 1.4rem;
     color: #7f8fa4;
     border-top: 1px solid #d9dde3;
 }
 
-.split-line span {
+.split-line:after {
+	content: attr(data-text);
     position: absolute;
     top: -10px;
     padding: 0 20px;
@@ -716,8 +730,7 @@ body {
 
 #column-main-footer {
     height: 50px;
-    margin-left: 85px;
-    margin-bottom: 20px;
+    margin: 0 30px 20px 85px;
     border: 1px solid #dfe3e9;
 }
 
