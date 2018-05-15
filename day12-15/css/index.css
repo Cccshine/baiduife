@@ -109,15 +109,15 @@ h3 {
 
 .num-tip {
 	display: inline-block;
-	min-width: 20px;
-	height: 20px;
-	line-height: 20px;
-	padding: 0 6px;
+	min-width: 22px;
+	height: 22px;
+	line-height: 22px;
+	padding: 0 8px;
 	font-size: 1.4rem;
 	color: #fff;
 	text-align: center;
-	background: #2ca0f8;
-	border-radius: 10px;
+	background: linear-gradient(to top, #1991eb, #2ea1f8);
+	border-radius: 11px;
 }
 
 .warn-tip {
@@ -127,7 +127,7 @@ h3 {
 	line-height: 20px;
 	color: #fff;
 	text-align: center;
-	background: #e24023;
+	background: linear-gradient(#ea5238, #cd290c);
 	border-radius: 50%;
 }
 
@@ -258,17 +258,17 @@ body {
 	background-image: url(../img/game.png);
 }
 
-#app-list .fa-caret-right {
-	display: none;
+#app-list .active:before{
+	content: "";
+	display: inline-block;
 	position: absolute;
 	left: 0;
 	top: 50%;
 	transform: translateY(-50%);
-	color: #2399f1;
-}
-
-#app-list .active .fa-caret-right {
-	display: inline-block;
+	width: 0;
+	height: 0;
+	border: 5px solid transparent;
+	border-left-color: #2399f1;
 }
 
 #column-app .tool {
@@ -319,12 +319,17 @@ body {
 	color: #fff;
 }
 
-#column-menu .fa-caret-right {
+#column-menu .active:before{
+	content: "";
+	display: inline-block;
 	position: absolute;
 	left: -30px;
 	top: 50%;
 	transform: translateY(-50%);
-	color: #2399f1;
+	width: 0;
+	height: 0;
+	border: 5px solid transparent;
+	border-left-color: #2399f1;
 }
 
 #column-menu .num-tip,
@@ -500,17 +505,18 @@ body {
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
-	max-height: 40px;
+	max-height: 44px;
+	min-height: 22px;
+}
+
+#friends-list .has-num-tip {
+	padding-right: 30px;
 }
 
 #friends-list .num-tip {
 	position: absolute;
 	top: 0;
 	right: 0;
-}
-
-#friends-list .status {
-	display: none;
 }
 
 #friends-list .active {
@@ -521,13 +527,15 @@ body {
 #friends-list .active h4 {
 	color: #299ef5;
 }
-
-#friends-list .active .status {
+#friends-list .active h4:before{
+	content: "";
 	display: inline-block;
-}
-
-#friends-list .active .message-summary {
-	padding-right: 30px;
+	width: 8px;
+	height: 8px;
+	margin-right: 10px;
+	background: #00aaff;
+	border-radius: 50%;
+	vertical-align: middle;
 }
 
 /* column-friends end */
@@ -551,6 +559,17 @@ body {
 	flex: 1 1 auto;
 	font-size: 1.8rem;
 	color: #585d68;
+}
+#column-messages-header h3:after{
+	content: "";
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	margin-right: 10px;
+	margin-left: 20px;
+	background: #1bb934;
+	border-radius: 50%;
+	vertical-align: middle;
 }
 
 #column-messages-header .status {
