@@ -10,7 +10,7 @@
 </head>
 <body>
 	<div id="page-container">
-		<div id="column-app" class="column">
+		<div id="column-app">
 			<ul id="app-list">
 				<li class="active">
 					<h4>location app</h4>
@@ -32,7 +32,7 @@
 				<li class="setting-icon"></li>
 			</ul>
 		</div>
-		<div id="column-menu" class="column">
+		<div id="column-menu">
 			<dl>
 				<dt>MENU<i class="setting-icon"></i></dt>
 				<dd>Overview<em class="num-tip">2</em></dd>
@@ -82,7 +82,7 @@
 				</div>
 			</header>
 			<div id="column-main-content">
-				<div id="column-friends" class="column">
+				<div id="column-friends">
 					<form id="search-input"  action="#">
 						<input type="text" placeholder="Search">
 						<i class="fa fa-search"></i>
@@ -108,7 +108,7 @@
 								<time>8m</time>
 							</header>
 							<div class="message-summary">
-								<p>I pay for the 4Mb/sec down, 512 Kb/sec up service from O2. In fact, it's relatively quick, and stable. It's not perfect, but I really don't have issues, as long as I keep track of what I'm doing on it. </p>
+								<p>I pay for the 4Mb/sec down, 512 Kb/sec up service from O2. </p>
 							</div>
 						</li>
 						<li>
@@ -119,7 +119,7 @@
 								<time>Yesterday</time>
 							</header>
 							<div class="message-summary">
-								<p>I pay for the 4Mb/sec down, 512 Kb/sec up service from O2. In fact, it's relatively quick, and stable. It's not perfect, but I really don't have issues, as long as I keep track of what I'm doing on it. </p>
+								<p>I pay for the 4Mb/sec down, 4Mb/sec down, 512 Kb/sec up service from O2. In fact, it's relatively quick, and stable. It's not perfect, but I really don't have issues, as long as I keep track of what I'm doing on it. </p>
 							</div>
 						</li>
 						<li>
@@ -130,7 +130,7 @@
 								<time>Yesterday</time>
 							</header>
 							<div class="message-summary">
-								<p>I pay for the 4Mb/sec down, 512 Kb/sec up service from O2. In fact, it's relatively quick, and stable. It's not perfect, but I really don't have issues, as long as I keep track of what I'm doing on it. </p>
+								<p>I pay for the 4Mb/sec down</p>
 							</div>
 						</li>
 						<li>
@@ -168,20 +168,19 @@
 						</li>
 					</ul>
 				</div>
-				<div id="column-messages" class="column">
-					<header>
-						<h3>Bessie Berry</h3>
-						<span class="status active-status"></span>
+				<div id="column-messages">
+					<header id="column-messages-header">
+						<h3>Bessie Berry<span class="status active-status"></span></h3>
 						<ul id="tool-bar">
 							<li><i class="fa fa-user-plus"></i></li>
 							<li><i class="fa fa-upload"></i></li>
 							<li><i class="fa fa-trash-o"></i></li>
 						</ul>
-						<div id="page">
-							<span>1 of 28</span>
-							<span class="page-btn"><i class="fa fa-caret-left"></i></span>
-							<span class="page-btn"><i class="fa fa-caret-right"></i></span>
-						</div>
+						<ul id="page-bar">
+							<li>1 of 28</li>
+							<li class="page-btn"><i class="fa fa-caret-left"></i></li>
+							<li class="page-btn"><i class="fa fa-caret-right"></i></li>
+						</ul>
 					</header>
 					<div id="message-container">
 						<ul class="message-list">
@@ -206,7 +205,9 @@
 								</section>
 							</li>
 						</ul>
-						<p>Tuesday</p>
+						<div class="split-line day-line">
+							<span>Tuesday</span>
+						</div>
 						<ul class="message-list">
 							<li>
 								<header class="user-info">
@@ -231,12 +232,14 @@
 											<img src="img/sky.jpg" alt="sky">
 											<div class="mask"></div>
 											<div class="mask-content">
+												<span class="plus-bg"></span>
 												<i class="fa fa-search-plus"></i>
 											</div>
 										<li>
 											<img src="img/sky.jpg" alt="sky">
 											<div class="mask"></div>
 											<div class="mask-content">
+												<span class="plus-bg"></span>
 												<i class="fa fa-search-plus"></i>
 											</div>
 										</li>
@@ -244,7 +247,9 @@
 								</section>
 							</li>
 						</ul>
-						<p>New Messages</p>
+						<div class="split-line new-line">
+							<span>New Messages</span>
+						</div>
 						<ul class="message-list">
 							<li>
 								<header class="user-info">
@@ -256,25 +261,13 @@
 									<p>I pay for the 4Mb/sec down, 512 Kb/sec up service from O2. In fact, it's relatively quick, and stable. It's not perfect, but I really don't have issues, as long as I keep track of what I'm doing on it. </p>
 								</section>
 							</li>
-							<li>
-								<header class="user-info">
-									<img src="img/timg3.jpg" alt="Amy">
-									<h4>Jordan Jackson</h4>
-									<time>11:45&nbsp;AM</time>
-								</header>
-								<section>
-									<p>I have internet for 9 month and nevere could benefit from the full capacity of 5Mbit/s as it is filtered by O2 when it detect traffic on public p2p sharing in my situation all my internet speed slows to 512Kbit/s. I never had 400KB/s on when downloading from p2p public servers like torrent emule etc. I downoad with 500KB/s from private trakers instead. So conlcusion O2 block trafic on p2p connections. I have made hundreds of test in Italy and Sweden and Romania with the same file to doanload with the same setting and same antivirus and just needed to open ports in firewall and forward same ports and the speed was at full capacity in 1 minute. here in 9 month never had this luck.</p>
-								</section>
-							</li>
 						</ul>
 					</div>
-					<footer>
-						<span id="add-message-btn">
+					<footer id="column-main-footer">
+						<button id="add-message-btn">
 							<i class="fa fa-plus"></i>
-						</span>
-						<textarea>
-							Well, kinda both :) but more of that second option, i`ve seen many systems infected and crawling with
-						</textarea>
+						</button>
+						<textarea>Well, kinda both :) but more of that second option, i`ve seen many systems infected and crawling with</textarea>
 					</footer>
 				</div>
 			</div>
