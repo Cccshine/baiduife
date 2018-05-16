@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>IFE ECMAScript</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        #multip-table {
+            border-collapse: collapse;
+        }
+
+        #multip-table td {
+            padding: 2px 10px;
+            border: 1px solid #fdaeae;
+        }
+    </style>
+</head>
+
+<body>
+    <input id="dec-number" type="number" placeholder="输入一个十进制非负整数">
+    <input id="bin-bit" type="number" placeholder="输入转化后二进制数字位数">
+    <button id="trans-btn">转化为二进制</button>
+    <p id="result">运算结果</p>
+    <hr>
+    <table id="multip-table">
+        <caption>九九乘法表</caption>
+        <tbody>
+            <tr>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        //------------- 十进制转二进制 --------------
+        function dec2bin(decNumber, binBit) {
+            // 在这里实现你的转化方法，注意需要判断输入必须为一个非负整数
+            if (typeof decNumber !== 'number' || decNumber < 0 || decNumber % 1) {
+                return '输入的待转换数字有误，无法转换';
+            }
+            var divisor = decNumber,
+                remainder = 0,
+                transArr = [];
+            if (!decNumber) {
+                transArr.unshift(0);
+            } else {
+                while (divisor) {
+                    remainder = divisor % 2;
+                    divisor = Math.floor(divisor / 2);
+                    transArr.unshift(remainder);
+                }
+            }
+            var transBinbit = transArr.length;
+            if (binBit && transBinbit > binBit) {
+                console.error('设置的二进制位数小于转换后的二进制数位数');
+            } else {
+                for (var i = 0, len = binBit - transBinbit; i < len; i++) {
+                    transArr.unshift(0);
+                }
+            }
+            return transArr.join('');
+        }
+
+        // 实现党点击转化按钮时，将输入的十进制数字转化为二进制，并显示在result的p标签内
+        var decNumberInput = document.getElementById('dec-number');
+        var binBitInput = document.getElementById('bin-bit');
+        var transBtn = document.getElementById('trans-btn');
+        var result = document.getElementById('result');
+        transBtn.addEventListener('click', function (event) {
+            var resultText = '',
+                decNumberString = decNumberInput.value,
+                binBitString = binBitInput.value;
+            if (!decNumberString) {
+                resultText = '您还未输入待转换的非负整数';
+            } else if (binBitString !== '' && !+binBitString) {
+                resultText = '二进制位数不能设为0';
+            } else {
+                resultText = dec2bin(+decNumberString, +binBitString);
+            }
+            result.innerText = resultText;
+        }, false);
+
+
+        //------------- 练习使用循环和条件语句 -------------
+        for (var i = 1; i <= 100; i++) {
+            if (i % 3) {
+                console.log(i)
+            } else {
+                console.log('PA')
+            }
+        }
+
+        //------------- 练习使用循环实现一个九九乘法表 -------------
+        var tds = document.getElementsByTagName('td');
+        for (var m = 1, t = 0; m <= 9; m++) {
+            for (var n = 1; n <= m; n++) {
+                tds[t].innerText = n + '*' + m + '=' + n * m;
+                t++;
+            }
+        }
+
+        //------------- 根据当前时间，在页面中输出不同的问候语 -------------
+        var nowHour = (new Date()).getHours();
+        if (nowHour >= 0 && nowHour < 5) {
+            alert('已经凌晨了耶~注意身体哦~');
+        } else if (nowHour >= 5 && nowHour < 8) {
+            alert('早晨好~吃早餐了嘛~');
+        } else if (nowHour >= 8 && nowHour < 11) {
+            alert('上午好~加油哦~');
+        } else if (nowHour >= 11 && nowHour < 13) {
+            alert('中午好~记得午休呢~');
+        } else if (nowHour >= 13 && nowHour < 16) {
+            alert('下午好~继续加油哦~');
+        } else if (nowHour >= 16 && nowHour < 19) {
+            alert('傍晚好~不知道能不能看到夕阳~');
+        } else if (nowHour >= 19 && nowHour < 24) {
+            alert('晚上好~做做自己喜欢的事~');
+        }
+    </script>
+</body>
+
+</html>
