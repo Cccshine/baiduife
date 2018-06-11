@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div>
+	    <label>String A:
+	        <input id="radio-a" type="radio" checked="true" name="str-obj" value="a">
+	    </label>
+	    <textarea id="str-a"></textarea>
+	    <label>String B:
+	        <input id="radio-b" type="radio" name="str-obj" value="b">
+	    </label>
+	    <textarea id="str-b"></textarea>        
+	    <label>Num A：<input id="num-a" type="number" value="0"></label>
+	    <label>Num B：<input id="num-b" type="number" value="1"></label>
+	</div>
+	<div>
+	    <button>获取当前选中输入的内容长度</button>
+	    <button>当前选中输入中的第3个字符</button>
+	    <button>把两个输入框的文字连接在一起输出（concat）</button>
+	    <button>输入B中的内容，在输入A的内容中第一次出现的位置（indexOf）</button>
+	    <button>输入A中的内容，在输入B的内容中最后一次出现的位置（lastIndexOf）</button>
+	    <button>使用slice获取选中输入框内容的部分内容，参数为num-a及num-b</button>
+	    <button>当前选中输入框的行数</button>
+	    <button>使用substr获取选中输入框内容的子字符串，参数为num-a及num-b</button>
+	    <button>把所选输入框中的内容全部转为大写</button>
+	    <button>把所选输入框中的内容全部转为小写</button>
+	    <button>把所选输入框中内容的半角空格全部去除</button>
+	    <button>把所选输入框中内容的a全部替换成另外一个输入框中的内容</button>
+	</div>
+	<p id="result"></p>
+	<script type="text/javascript">
+		let	eleRadioA = document.getElementById('radio-a'),
+			eleRadioB = document.getElementById('radio-b'),
+			eleTextA = document.getElementById('str-a'),
+			eleTextB = document.getElementById('str-b'),
+			eleNumA = document.getElementById('num-a'),
+			eleNumB = document.getElementById('num-b'),
+			eleResult = document.getElementById('result'),
+			currentEleText = eleTextA,
+			eleButtons = document.getElementsByTagName('button');
+
+		eleRadioA.addEventListener('change', (event)=>{
+			currentEleText = eleTextA;
+		}, false);
+
+		eleRadioB.addEventListener('change', (event)=>{
+			currentEleText = eleTextB;
+		}, false);
+
+		eleButtons[0].addEventListener('click', (event)=>{
+			if(!currentEleText){
+				alert('请先选中一个输入框，并输入内容！');
+				resetResult();
+				return;
+			}else if(!currentEleText.value){
+				alert('请输入内容！');
+				resetResult();
+				return;
+			}
+			eleResult.innerText = currentEleText.value.length;
+		}, false);
+
+		eleButtons[1].addEventListener('click', (event)=>{
+			if(!currentEleText){
+				alert('请先选中一个输入框，并输入内容！');
+				resetResult();
+				return;
+			}else if(!currentEleText.value){
+				alert('请输入长度不小于3的内容！');
+				resetResult();
+				return;
+			}
+			eleResult.innerText = currentEleText.value.charAt(2);
+		}, false);
+
+		eleButtons[2].addEventListener('click', (event)=>{
+			let strA = eleTextA.value,
+				strB = eleTextB.value;
+			eleResult.innerText = strA.concat(strB);
+		}, false);
+
+		eleButtons[3].addEventListener('click', (event)=>{
+			let strA = eleTextA.value,
+				strB = eleTextB.value;
+			if(!strA || !strB){
+				alert('请在A、B中输入内容！');
+				resetResult();
+				return;
+			}
+			eleResult.innerText = strA.indexOf(strB);
+		}, false);
+
+		eleButtons[4].addEventListener('click', (event)=>{
+			let strA = eleTextA.value,
+				strB = eleTextB.value;
+			if(!strA || !strB){
+				alert('请在A、B中输入内容！');
+				resetResult();
+				return;
+			}
+			eleResult.innerText = strB.lastIndexOf(strA);
+		}, false);
+
+		eleButtons[5].addEventListener('click', (event)=>{
+			if(!currentEleText){
+				alert('请先选中一个输入框，并输入内容！');
+				resetResult();
+				return;
+			}else if(!currentEleText.value){
+				alert('请输入内容！');
+				resetResult();
+				return;
+			}
+			let numA = +eleNumA.value,
+				numB = +eleNumB.value;
+			eleResult.innerText = currentEleText.value.slice(numA,numB);
+		}, false);
+
+		eleButtons[6].addEventListener('click', (event)=>{
+			if(!currentEleText){
+				alert('请先选中一个输入框，并输入内容！');
+				resetResult();
+				return;
+			}else if(!currentEleText.value){
+				alert('请输入内容！');
+				resetResult();
+				return;
+			}
+			let matchArr = currentEleText.value.match(/\n/g);
+			eleResult.innerText = matchArr ? matchArr.length + 1 : 1;
+		}, false);
+
+		eleButtons[7].addEventListener('click', (event)=>{
+			if(!currentEleText){
+				alert('请先选中一个输入框，并输入内容！');
+				resetResult();
+				return;
+			}else if(!currentEleText.value){
+				alert('请输入内容！');
+				resetResult();
+				return;
+			}
+			let numA = +eleNumA.value,
+				numB = +eleNumB.value;
+			eleResult.innerText = currentEleText.value.substr(numA,numB);
+		}, false);
+
+		eleButtons[8].addEventListener('click', (event)=>{
+			if(!currentEleText){
+				alert('请先选中一个输入框，并输入内容！');
+				resetResult();
+				return;
+			}else if(!currentEleText.value){
+				alert('请输入内容！');
+				resetResult();
+				return;
+			}
+			eleResult.innerText = currentEleText.value.toUpperCase();
+		}, false);
+
+		eleButtons[9].addEventListener('click', (event)=>{
+			if(!currentEleText){
+				alert('请先选中一个输入框，并输入内容！');
+				resetResult();
+				return;
+			}else if(!currentEleText.value){
+				alert('请输入内容！');
+				resetResult();
+				return;
+			}
+			eleResult.innerText = currentEleText.value.toLowerCase();
+		}, false);
+
+		eleButtons[10].addEventListener('click', (event)=>{
+			if(!currentEleText){
+				alert('请先选中一个输入框，并输入内容！');
+				resetResult();
+				return;
+			}else if(!currentEleText.value){
+				alert('请输入内容！');
+				resetResult();
+				return;
+			}
+			eleResult.innerText = currentEleText.value.replace(/\s/g,'');
+		}, false);
+
+		eleButtons[11].addEventListener('click', (event)=>{
+			if(!currentEleText){
+				alert('请先选中一个输入框，并输入内容！');
+				resetResult();
+				return;
+			}else if(!currentEleText.value){
+				alert('请输入内容！');
+				resetResult();
+				return;
+			}
+			let replaceStr = '';
+			if(currentEleText === eleTextA){
+				replaceStr = eleTextB.value;
+			}else{
+				replaceStr = eleTextA.value;
+			}
+			eleResult.innerText = currentEleText.value.replace(/a/g, replaceStr);
+		}, false);
+
+		function resetResult(){
+			eleResult.innerText = '';
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input id="queue-input" type="text">
+	<p>队列内容：<span id="queue-cont">apple-&gt;pear</span></p>    
+	<button id="in-btn">入队</button>
+	<button id="out-btn">出队</button>
+	<button id="font-btn">打印队头元素内容（队头为最后一个元素）</button>
+	<button id="empty-btn">判断队列是否为空</button>
+
+	<script>
+		var queue = ["apple", "pear"];
+		var eleInput = document.getElementById('queue-input'),
+			eleButtons = document.getElementsByTagName('button'),
+			eleQueue = document.getElementById('queue-cont');
+
+		eleButtons[0].addEventListener('click', (event) => {
+			var targetValue = eleInput.value;
+			if(!targetValue){
+				alert('请输入内容后再入队');
+				return;
+			}
+			queue.unshift(targetValue);
+			eleQueue.innerText = queue.join('->');
+		}, false);
+
+		eleButtons[1].addEventListener('click', (event) => {
+			queue.length && queue.pop();
+			eleQueue.innerText = queue.join('->');
+		}, false);
+
+		eleButtons[2].addEventListener('click', (event) => {
+			if(!queue.length){
+				alert('队列为空');
+			}else{
+				console.log(queue[queue.length - 1]);
+			}
+		}, false);
+
+		eleButtons[3].addEventListener('click', (event) => {
+			if(!queue.length){
+				alert('队列为空');
+			}else{
+				alert('队列不为空');
+			}
+		}, false);
+
+	</script>
+</body>
+</html>
