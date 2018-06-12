@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div>
+		<p>{
+		    "Tony": {
+		        "Math": 95,
+		        "English": 79,
+		        "Music": 68
+		    }, 
+		    "Simon": {
+		        "Math": 100,
+		        "English": 95,
+		        "Music": 98
+		    }, 
+		    "Annie": {
+		        "Math": 54,
+		        "English": 65,
+		        "Music": 88
+		    }
+		}</p>
+		<p>转换为数组：<pre class="result"></pre></p>
+	</div>
+
+	<div>
+		<p>[
+		    [1, "Area1", -1],
+		    [2, "Area2", -1],
+		    [3, "Area1-1", 1],
+		    [4, "Area1-2", 1],
+		    [5, "Area2-1", 2],
+		    [6, "Area2-2", 2],
+		    [7, "Area1-2-3", 4],
+		    [8, "Area2-2-1", 6],
+		]</p>
+		<p>转换为对象：<pre class="result"></span></p>
+	</div>
+	<script type="text/javascript">
+		var results = document.getElementsByClassName('result');
+
+		var scoreObject = {
+						    "Tony": {
+						        "Math": 95,
+						        "English": 79,
+						        "Music": 68
+						    }, 
+						    "Simon": {
+						        "Math": 100,
+						        "English": 95,
+						        "Music": 98
+						    }, 
+						    "Annie": {
+						        "Math": 54,
+						        "English": 65,
+						        "Music": 88
+						    }
+						};
+		var scoreArray = [];
+		for(var key in scoreObject){
+			scoreArray.push([key,scoreObject[key].Math,scoreObject[key].English,scoreObject[key].Music]);
+		}
+		results[0].innerText = JSON.stringify(scoreArray);
+
+		var menuArr = [
+		    [1, "Area1", -1],
+		    [2, "Area2", -1],
+		    [3, "Area1-1", 1],
+		    [4, "Area1-2", 1],
+		    [5, "Area2-1", 2],
+		    [6, "Area2-2", 2],
+		    [7, "Area1-2-3", 4],
+		    [8, "Area2-2-1", 6],
+		];
+
+		function transform(arr, pid){
+			var obj = {};
+			for(var item of arr){
+				if(item[2] === pid){
+					obj[item[0]] = {
+						name:item[1],
+						subMenu:transform(arr, item[0])
+					};
+					if(JSON.stringify(obj[item[0]].subMenu) === "{}"){
+						delete obj[item[0]].subMenu
+					}
+				}
+
+			}
+			return obj;
+		}
+		var menuObject = transform(menuArr, -1);
+		console.log(menuObject)
+		results[1].innerText = JSON.stringify(menuObject);
+	</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div>
+		<p>[43, 54, 4, -4, 84, 100, 58, 27, 140];</p>
+		<p>从小到大：<span class="sort-result"></span></p>
+		<p>从大到小：<span class="sort-result"></span></p>
+	</div>
+
+	<div>
+		<p>['apple', 'dog', 'cat', 'car', 'zoo', 'orange', 'airplane'];</p>
+		<p>按字母顺序a-z：<span class="sort-result"></span></p>
+		<p>按字母顺序z-a：<span class="sort-result"></span></p>
+	</div>
+
+	<div>
+		<p>[[10, 14], [16, 60], [7, 44], [26, 35], [22, 63]];</p>
+		<p>按照每个元素中第二个数从大到小的顺序：<span class="sort-result"></span></p>
+	</div>
+
+	<div>
+		<p>[{
+        id: 1,
+        name: 'candy',
+        value: 40
+    }, {
+        id: 2,
+        name: 'Simon',
+        value: 50
+    }, {
+        id: 3,
+        name: 'Tony',
+        value: 45
+    }, {
+        id: 4,
+        name: 'Annie',
+        value: 60
+    }];</p>
+		<p>按元素对象的value值从小到大的顺序：<span class="sort-result"></span></p>
+	</div>
+	<script type="text/javascript">
+		var sortResults = document.getElementsByClassName('sort-result');
+		var arr1 = [43, 54, 4, -4, 84, 100, 58, 27, 140];
+		arr1.sort(function(a, b){
+			return a-b;
+		})
+		sortResults[0].innerText = JSON.stringify(arr1);
+		// arr1.reverse();
+		arr1.sort(function(a, b){
+			return b-a;
+		})
+		sortResults[1].innerText = JSON.stringify(arr1);
+
+		var arr2 = ['apple', 'dog', 'cat', 'car', 'zoo', 'orange', 'airplane'];
+		arr2.sort();
+		sortResults[2].innerText = JSON.stringify(arr2);
+		// arr2.reverse();
+		arr2.sort(function(a,b){
+			if(a < b){
+				return 1;
+			}else if(a > b){
+				return -1;
+			}else{
+				return 0;
+			}
+		});
+		sortResults[3].innerText = JSON.stringify(arr2);
+
+		var arr3 = [[10, 14], [16, 60], [7, 44], [26, 35], [22, 63]];
+		arr3.sort(function(a,b){
+			return  b[1] - a[1];
+		});
+		sortResults[4].innerText = JSON.stringify(arr3);
+
+
+		var arr4 = [{
+			        	id: 1,
+				        name: 'candy',
+				        value: 40
+				    }, {
+				        id: 2,
+				        name: 'Simon',
+				        value: 50
+				    }, {
+				        id: 3,
+				        name: 'Tony',
+				        value: 45
+				    }, {
+				        id: 4,
+				        name: 'Annie',
+				        value: 60
+				    }];
+	    arr4.sort(function(a,b){
+	    	return a.value - b.value;
+	    })
+		sortResults[5].innerText = JSON.stringify(arr4);
+	</script>
+</body>
+</html>
