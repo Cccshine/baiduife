@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<p class="time"></p>
+	<p class="time"></p>
+	<script type="text/javascript">
+		var times = document.getElementsByClassName("time");
+		setInterval(function(){
+			var now = new Date();
+			times[0].innerText = concat(now,"YYYY 年 MM 月 DD 日 W HH:mm:ss");
+			times[1].innerText = concat(now,"YYYY-MM-DD w hh:mm:ss ");
+		},500);
+
+		function getDayDesc (time,lang) {
+			var day = time.getDay();
+			switch (day) {
+		 		case 1:
+			 		return lang === "en" ? "Monday":"星期一";
+			 		break;
+		 		case 2:
+			 		return lang === "en" ? "Tuesday":"星期二"
+			 		break;
+		 		case 3:
+			 		return lang === "en" ? "Wednesday":"星期三"
+			 		break;
+		 		case 4:
+			 		return lang === "en" ? "Thursday":"星期四"
+			 		break;
+		 		case 5:
+			 		return lang === "en" ? "Firday":"星期五"
+			 		break;
+		 		case 6:
+			 		return lang === "en" ? "Staturday":"星期六"
+			 		break;
+			 	default:
+			 		return lang === "en" ? "Sunday":"星期日"
+			 		break;
+			 } 
+		}
+
+		function toTwo(num){
+			return num < 10 ? ('0' + num) : num;
+		}
+
+		function amOrPm(hour){
+			return hour < 12 ? 'AM' : 'PM';
+		}
+
+		function concat(time,format){
+			var lang = format.indexOf("w") !== -1 ? "en" : "zh";
+			var is12 = format.indexOf("hh") !== -1 ? true : false;
+
+			var year = time.getFullYear();
+			var month = toTwo(time.getMonth() + 1);
+			var date = time.getDate();
+			var day = getDayDesc(time,lang);
+			var hour = toTwo(time.getHours());
+			var minute = toTwo(time.getMinutes());
+			var second = toTwo(time.getSeconds());
+			format = format.replace("YYYY",year);
+			format = format.replace("MM",month);
+			format = format.replace("DD",date);
+			format = format.replace("W",day);
+			format = format.replace("w",day);
+			format = format.replace("hh",hour);
+			format = format.replace("HH",hour);
+			format = format.replace("mm",minute);
+			format = format.replace("ss",second);
+			is12 && (format += amOrPm(hour));
+			return format;
+		}
+
+	</script>
+</body>
+</html>
