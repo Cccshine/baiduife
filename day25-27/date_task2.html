@@ -241,6 +241,7 @@
 		}, false);
 
 		monthSelect.addEventListener('change', function(event){
+			createDaySelectHtml(+yearSelect.value, +monthSelect.value);
 			var targetTime = getTargetTime();
 			getResultDesc(targetTime);
 		}, false);
@@ -311,7 +312,7 @@
 		}
 
 		function isLeapYear (year) {
-			return ((!year%4 && year%100) || (!year%100 && !year%400));
+			return ((!(year%4) && !!(year%100)) || (!(year%100) && !(year%400)));
 		}
 
 		function getMonthDays(year,month){
