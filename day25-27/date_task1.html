@@ -58,7 +58,10 @@
 			var month = toTwo(time.getMonth() + 1);
 			var date = time.getDate();
 			var day = getDayDesc(time,lang);
-			var hour = toTwo(time.getHours());
+			var hour = time.getHours();
+			var sign = amOrPm(hour);
+			is12 && (hour = hour - 12);
+			hour = toTwo(hour);
 			var minute = toTwo(time.getMinutes());
 			var second = toTwo(time.getSeconds());
 			format = format.replace("YYYY",year);
@@ -70,7 +73,7 @@
 			format = format.replace("HH",hour);
 			format = format.replace("mm",minute);
 			format = format.replace("ss",second);
-			is12 && (format += amOrPm(hour));
+			is12 && (format += sign);
 			return format;
 		}
 
