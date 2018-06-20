@@ -75,48 +75,52 @@
 		var domEmailSugWrap = document.getElementById('email-sug-wrapper');
 
 		domEmailInput.focus();
-
+		//输入框内容变化时
 		domEmailInput.addEventListener('input', getTip, false);
+		//获得焦点时隐藏错误提示
 		domEmailInput.addEventListener('focus', function(event) {
 			hide(domEmailErrTip);
 		}, false);
+
+		//失去焦点时校验
 		domEmailInput.addEventListener('blur', function(event) {
 			var value = getTrimInput(domEmailInput.value);
-			if(vilidateInput(value)){
+			if (vilidateInput(value)) {
 				hide(domEmailErrTip);
-			}else{
+			} else {
 				show(domEmailErrTip);
 			}
 			resetSelectTipIndex();
-			showOrHideTip(true); 
+			showOrHideTip(true);
 		}, false);
 
+		//键盘事件
 		domEmailInput.addEventListener('keyup', function(event) {
 			var code = event.keyCode;
 			var domTips = document.querySelectorAll('#email-sug-wrapper li');
-			if(code === 13 && domTips.length){
-				domEmailInput.value = domTips[nowSelectTipIndex].innerText;
+			if (code === 13 && domTips.length) {
+				domEmailInput.value = htmlDecode(domTips[nowSelectTipIndex].innerHTML);
 				resetSelectTipIndex();
 				showOrHideTip(true);
-			}else if(code === 38 && domTips.length){//上箭头
+			} else if (code === 38 && domTips.length) { //上箭头
 				clearActiveTip();
-				if(nowSelectTipIndex === 0){
+				if (nowSelectTipIndex === 0) {
 					nowSelectTipIndex = domTips.length - 1;
-				}else{
+				} else {
 					nowSelectTipIndex--;
 				}
 				setActiveTip();
-			}else if(code === 40 && domTips.length){//下箭头
+			} else if (code === 40 && domTips.length) { //下箭头
 				clearActiveTip();
-				if(nowSelectTipIndex === domTips.length - 1){
+				if (nowSelectTipIndex === domTips.length - 1) {
 					nowSelectTipIndex = 0;
-				}else{
+				} else {
 					nowSelectTipIndex++;
 				}
 				setActiveTip();
-			}else if(code === 27){//esc
+			} else if (code === 27) { //esc
 				domEmailInput.select();
-			}else{
+			} else {
 				clearActiveTip();
 				resetSelectTipIndex();
 				setActiveTip();
@@ -124,120 +128,120 @@
 		}, false);
 
 
+		//提示框用鼠标选中
 		//mousedown在blur之前触发
-		domEmailSugWrap.addEventListener('mousedown', function(event){
+		domEmailSugWrap.addEventListener('mousedown', function(event) {
 			var target = event.target;
-			if(target.tagName.toLowerCase() === 'li'){
-				domEmailInput.value = target.innerText;
+			if (target.tagName.toLowerCase() === 'li') {
+				domEmailInput.value = htmlDecode(target.innerHTML);
 				showOrHideTip(true);
 				domEmailInput.focus();
 			}
-			event.preventDefault();//阻止默认的blur，这样domEmailInput.focus()才有效
+			event.preventDefault(); //阻止默认的blur，这样domEmailInput.focus()才有效
 		}, false);
 
+		//获取提示框及其状态
 		function getTip(event) {
 			var value = getTrimInput(domEmailInput.value);
-			if(!value){
+			if (!value) {
 				showOrHideTip(true);
-			}else{
+			} else {
 				var html = createTipHtml(value);
 				appendTipHtml(html);
 				setActiveTip();
-				if(!html){
+				if (!html) {
 					showOrHideTip(true);
-				}else{
+				} else {
 					showOrHideTip(false);
 				}
-				
+
 			}
 		}
 
+		//trim操作
 		function getTrimInput(value) {
-		    return value.replace(/(^\s*)|(\s*$)/g,''); 
+			return value.replace(/(^\s*)|(\s*$)/g, '');
 		}
 
-		function vilidateInput (value) {
+		//邮箱校验
+		function vilidateInput(value) {
 			var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
 			return reg.test(value);
 		}
 
+		//生成提示内容
 		function createTipHtml(value) {
 			var html = '';
 			var index = value.indexOf('@');
 			var pfix = '';
-			if(index !== -1){
+			if (index !== -1) {
 				pfix = getTrimInput(value.slice(index + 1));
-				value = value.slice(0,index);
+				value = value.slice(0, index);
 			}
-			value = htmlEncodeByRegExp(value);
-			html = postfixList.reduce(function(html, currentValue, currentIndex){
-						if(currentValue.indexOf(pfix) !== -1){
-							return html + '<li class="'+(currentIndex === nowSelectTipIndex ? 'active' : '')+'">'+value+'@'+currentValue+'</li>';
-						}else{
-							return html;
-						}
-					}, html);
+			value = htmlEncode(value);
+			html = postfixList.reduce(function(html, currentValue, currentIndex) {
+				if (currentValue.indexOf(pfix) !== -1) {
+					return html + '<li class="' + (currentIndex === nowSelectTipIndex ? 'active' : '') + '">' + value + '@' + currentValue + '</li>';
+				} else {
+					return html;
+				}
+			}, html);
 			return html;
 		}
 
+		//提示html插入到提示框
 		function appendTipHtml(html) {
 			domEmailSugWrap.innerHTML = html;
 		}
 
+		//隐藏或显示提示框
 		function showOrHideTip(isHide) {
-			if(isHide){
+			if (isHide) {
 				hide(domEmailSugWrap);
-			}else{
+			} else {
 				show(domEmailSugWrap);
 			}
 		}
 
+		//隐藏dom
 		function hide(dom) {
-		    dom.className = dom.className.replace('show','hide');
+			dom.className = dom.className.replace('show', 'hide');
 		}
 
+		//显示dom
 		function show(dom) {
-			dom.className = dom.className.replace('hide','show');
+			dom.className = dom.className.replace('hide', 'show');
 		}
 
-		 /*用正则表达式实现html转码*/
-        function htmlEncodeByRegExp(str){ 
-             var s = "";
-             if(str.length == 0) return "";
-             s = str.replace(/&/g,"&amp;");
-             s = s.replace(/</g,"&lt;");
-             s = s.replace(/>/g,"&gt;");
-             s = s.replace(/ /g,"&nbsp;");
-             s = s.replace(/\'/g,"&apos;");
-             s = s.replace(/\"/g,"&quot;");
-             return s; 
-       }
-
-       /*用正则表达式实现html解码*/
-       function htmlDecodeByRegExp(str){ 
-             var s = "";
-             if(str.length == 0) return "";
-             s = str.replace(/&/g,"&");
-             s = s.replace(/</g,"<");
-             s = s.replace(/>/g,">");
-             s = s.replace(/ /g," ");
-             s = s.replace(/'/g,"\'");
-             s = s.replace(/"/g,"\"");
-             return s; 
-       }
-
-       function clearActiveTip() {
-       		var domTips = document.querySelectorAll('#email-sug-wrapper li');
+		//清除当前选中的提示
+		function clearActiveTip() {
+			var domTips = document.querySelectorAll('#email-sug-wrapper li');
 			domTips[nowSelectTipIndex].className = '';
-       }
+		}
 
-       function setActiveTip() {
-       		var domTips = document.querySelectorAll('#email-sug-wrapper li');
+		//设置当前选中的提示
+		function setActiveTip() {
+			var domTips = document.querySelectorAll('#email-sug-wrapper li');
 			domTips[nowSelectTipIndex].className = 'active';
-       }
+		}
 
-	    function resetSelectTipIndex() {
-	    	nowSelectTipIndex = 0;
+		//重置提示索引
+		function resetSelectTipIndex() {
+			nowSelectTipIndex = 0;
+		}
+
+		// html转码
+		function htmlEncode(html) {
+			var temp = document.createElement('div');
+			temp.textContent != undefined ? temp.textContent = html : temp.innerText = html;
+			return temp.innerHTML;
+		}
+
+		// html解码
+		function htmlDecode(html) {
+			var temp = document.createElement('div');
+			temp.innerHTML = html;
+			return temp.innerText || temp.textContent;
 		}
 	</script>
 </body>
