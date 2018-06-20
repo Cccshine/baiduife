@@ -3,19 +3,241 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<style type="text/css">
+		*{
+			box-sizing: border-box;
+		}
+		.wrapper{
+			position: relative;
+			width: 500px;
+			margin: 30px auto;
+		}
+		#email-input{
+		    width: 300px;
+		    height: 30px;
+		    line-height: 30px;
+		    padding: 0 10px;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		}
+		.email-sug{
+			position: absolute;
+			width: 300px;
+			list-style: none;
+		    padding: 0;
+		    margin: 0;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		    box-shadow: 4px 4px 10px #424040;
+		}
+		.email-sug li{
+			line-height: 1.5;
+			padding: 5px 10px;
+			word-break: break-all;
+			cursor: pointer;
+		}
+		.email-sug li:hover{
+			background: #f7b6b6;
+		}
+		.email-sug .active,
+		.email-sug .active:hover{
+			background: #53add8;
+		}
+		#error-tip{
+			position: absolute;
+		    right: 0;
+		    top: 0;
+		    margin: 0;
+		    color: red;
+		}
+		.show{
+			display: block;
+		}
+		.hide{
+			display: none;
+		}
+	</style>
 </head>
 <body>
 	<div class="wrapper">
 	    <input id="email-input" type="text">
-	    <ul id="email-sug-wrapper" class="email-sug"></ul>
+	    <p id="error-tip" class="hide">输入的邮箱格式错误！</p>
+	    <ul id="email-sug-wrapper" class="email-sug hide"></ul>
 	</div>
 	<script type="text/javascript">
+		// 增加一个变量，用于存储当前选中的提示Li的序号
+		var nowSelectTipIndex = 0;
+
 		// 邮箱后缀List参考
 		var postfixList = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net'];
 		var domEmailInput = document.getElementById('email-input');
-		domEmailInput.addEventListener('input', showTip, false);
-		function showTip (argument) {
-			// body... 
+		var domEmailErrTip = document.getElementById('error-tip');
+		var domEmailSugWrap = document.getElementById('email-sug-wrapper');
+
+		domEmailInput.focus();
+
+		domEmailInput.addEventListener('input', getTip, false);
+		domEmailInput.addEventListener('focus', function(event) {
+			hide(domEmailErrTip);
+		}, false);
+		domEmailInput.addEventListener('blur', function(event) {
+			var value = getTrimInput(domEmailInput.value);
+			if(vilidateInput(value)){
+				hide(domEmailErrTip);
+			}else{
+				show(domEmailErrTip);
+			}
+			resetSelectTipIndex();
+			showOrHideTip(true); 
+		}, false);
+
+		domEmailInput.addEventListener('keyup', function(event) {
+			var code = event.keyCode;
+			var domTips = document.querySelectorAll('#email-sug-wrapper li');
+			if(code === 13 && domTips.length){
+				domEmailInput.value = domTips[nowSelectTipIndex].innerText;
+				resetSelectTipIndex();
+				showOrHideTip(true);
+			}else if(code === 38 && domTips.length){//上箭头
+				clearActiveTip();
+				if(nowSelectTipIndex === 0){
+					nowSelectTipIndex = domTips.length - 1;
+				}else{
+					nowSelectTipIndex--;
+				}
+				setActiveTip();
+			}else if(code === 40 && domTips.length){//下箭头
+				clearActiveTip();
+				if(nowSelectTipIndex === domTips.length - 1){
+					nowSelectTipIndex = 0;
+				}else{
+					nowSelectTipIndex++;
+				}
+				setActiveTip();
+			}else if(code === 27){//esc
+				domEmailInput.select();
+			}else{
+				clearActiveTip();
+				resetSelectTipIndex();
+				setActiveTip();
+			}
+		}, false);
+
+
+		//mousedown在blur之前触发
+		domEmailSugWrap.addEventListener('mousedown', function(event){
+			var target = event.target;
+			if(target.tagName.toLowerCase() === 'li'){
+				domEmailInput.value = target.innerText;
+				showOrHideTip(true);
+				domEmailInput.focus();
+			}
+			event.preventDefault();//阻止默认的blur，这样domEmailInput.focus()才有效
+		}, false);
+
+		function getTip(event) {
+			var value = getTrimInput(domEmailInput.value);
+			if(!value){
+				showOrHideTip(true);
+			}else{
+				var html = createTipHtml(value);
+				appendTipHtml(html);
+				setActiveTip();
+				if(!html){
+					showOrHideTip(true);
+				}else{
+					showOrHideTip(false);
+				}
+				
+			}
+		}
+
+		function getTrimInput(value) {
+		    return value.replace(/(^\s*)|(\s*$)/g,''); 
+		}
+
+		function vilidateInput (value) {
+			var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
+			return reg.test(value);
+		}
+
+		function createTipHtml(value) {
+			var html = '';
+			var index = value.indexOf('@');
+			var pfix = '';
+			if(index !== -1){
+				pfix = getTrimInput(value.slice(index + 1));
+				value = value.slice(0,index);
+			}
+			value = htmlEncodeByRegExp(value);
+			html = postfixList.reduce(function(html, currentValue, currentIndex){
+						if(currentValue.indexOf(pfix) !== -1){
+							return html + '<li class="'+(currentIndex === nowSelectTipIndex ? 'active' : '')+'">'+value+'@'+currentValue+'</li>';
+						}else{
+							return html;
+						}
+					}, html);
+			return html;
+		}
+
+		function appendTipHtml(html) {
+			domEmailSugWrap.innerHTML = html;
+		}
+
+		function showOrHideTip(isHide) {
+			if(isHide){
+				hide(domEmailSugWrap);
+			}else{
+				show(domEmailSugWrap);
+			}
+		}
+
+		function hide(dom) {
+		    dom.className = dom.className.replace('show','hide');
+		}
+
+		function show(dom) {
+			dom.className = dom.className.replace('hide','show');
+		}
+
+		 /*用正则表达式实现html转码*/
+        function htmlEncodeByRegExp(str){ 
+             var s = "";
+             if(str.length == 0) return "";
+             s = str.replace(/&/g,"&amp;");
+             s = s.replace(/</g,"&lt;");
+             s = s.replace(/>/g,"&gt;");
+             s = s.replace(/ /g,"&nbsp;");
+             s = s.replace(/\'/g,"&apos;");
+             s = s.replace(/\"/g,"&quot;");
+             return s; 
+       }
+
+       /*用正则表达式实现html解码*/
+       function htmlDecodeByRegExp(str){ 
+             var s = "";
+             if(str.length == 0) return "";
+             s = str.replace(/&/g,"&");
+             s = s.replace(/</g,"<");
+             s = s.replace(/>/g,">");
+             s = s.replace(/ /g," ");
+             s = s.replace(/'/g,"\'");
+             s = s.replace(/"/g,"\"");
+             return s; 
+       }
+
+       function clearActiveTip() {
+       		var domTips = document.querySelectorAll('#email-sug-wrapper li');
+			domTips[nowSelectTipIndex].className = '';
+       }
+
+       function setActiveTip() {
+       		var domTips = document.querySelectorAll('#email-sug-wrapper li');
+			domTips[nowSelectTipIndex].className = 'active';
+       }
+
+	    function resetSelectTipIndex() {
+	    	nowSelectTipIndex = 0;
 		}
 	</script>
 </body>
