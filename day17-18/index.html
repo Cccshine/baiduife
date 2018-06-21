@@ -96,7 +96,7 @@
         //------------- 十进制转二进制 --------------
         function dec2bin(decNumber, binBit) {
             // 在这里实现你的转化方法，注意需要判断输入必须为一个非负整数
-            if (typeof decNumber !== 'number' || decNumber < 0 || decNumber % 1) {
+            if (isNaN(decNumber) || decNumber < 0 || decNumber % 1) {
                 return '输入的待转换数字有误，无法转换';
             }
             var divisor = decNumber,
