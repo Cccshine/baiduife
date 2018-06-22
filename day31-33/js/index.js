@@ -144,7 +144,7 @@ function renderTable(data) {
 
 	html = data.reduce((html, current, index) => {
 			html += `<tr>
-		 				<td>${status === 2 ? current.region : current.product}</td>
+						${addRowSpan(status, current, index)}
 		 				<td>${status === 2 ? current.product : current.region}</td>
 		 				<td>${current.sale[0]}</td>
 		 				<td>${current.sale[1]}</td>
@@ -162,4 +162,14 @@ function renderTable(data) {
 			return html;
 	}, html);
 	domTableBody.innerHTML = html;
+}
+
+function addRowSpan(status, current, index) {
+	let firstTdHtml = ``;
+	if((status === 2 || status === 3) && index === 0){
+		firstTdHtml += `<td rowspan="3">${status === 2 ? current.region : current.product}</td>`;
+	}else if(status !== 2 && status !== 3){
+		firstTdHtml += `<td>${current.product}</td>`;
+	}
+	return firstTdHtml;
 }

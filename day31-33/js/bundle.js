@@ -47,6 +47,38 @@ exports.default = sourceData;
 },{}],2:[function(require,module,exports){
 'use strict';
 
+var _checkbox = require('../js/checkbox.js');
+
+var _table = require('../js/table.js');
+
+var domRegionRadioWrap = document.getElementById('region-radio-wrapper');
+var domProductRadioWrap = document.getElementById('product-radio-wrapper');
+
+(0, _checkbox.bindCheckBox)(domRegionRadioWrap, function () {
+	(0, _table.changeTable)({
+		"region": domRegionRadioWrap,
+		"product": domProductRadioWrap
+	});
+});
+(0, _checkbox.bindCheckBox)(domProductRadioWrap, function () {
+	(0, _table.changeTable)({
+		"region": domRegionRadioWrap,
+		"product": domProductRadioWrap
+	});
+});
+(0, _table.changeTable)({
+	"region": domRegionRadioWrap,
+	"product": domProductRadioWrap
+});
+
+},{"../js/checkbox.js":3,"../js/table.js":5}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.getCheckStatus = exports.getCheckedTotal = exports.isCheckAllBox = exports.bindCheckBox = undefined;
+
 var _ife31data = require('../data/ife31data.js');
 
 var _ife31data2 = _interopRequireDefault(_ife31data);
@@ -55,17 +87,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var domRegionRadioWrap = document.getElementById('region-radio-wrapper');
 var domProductRadioWrap = document.getElementById('product-radio-wrapper');
-var domTableWrap = document.getElementById('table-wrapper');
-var domTableHeadFirst = document.getElementById('table-head-first');
-var domTableHeadSecond = document.getElementById('table-head-second');
-var domTableBody = document.getElementById('table-body');
 
-bindCheckBox(domRegionRadioWrap);
-bindCheckBox(domProductRadioWrap);
-
-changeTable();
-
-function bindCheckBox(wrap) {
+//绑定勾选框事件
+function bindCheckBox(wrap, callback) {
 	wrap.addEventListener('click', function (event) {
 		var domTarget = event.target;
 
@@ -119,8 +143,8 @@ function bindCheckBox(wrap) {
 					domCheckAllBox.checked = false;
 				}
 			}
-
-			changeTable();
+			isFunction(callback) && callback();
+			// changeTable();
 		}
 	}, false);
 }
@@ -130,6 +154,7 @@ function isCheckAllBox(ele) {
 	return ele.dataset.checkType === 'all';
 }
 
+//获取勾选数量
 function getCheckedTotal(wrap) {
 	var domCheckboxs = wrap.querySelectorAll('input');
 	var checkedBoxs = [];
@@ -164,50 +189,80 @@ function getCheckedTotal(wrap) {
 	return checkedBoxs.length;
 }
 
+//获取勾选情况
+function getCheckStatus() {
+	var regionCheckedTotal = getCheckedTotal(domRegionRadioWrap);
+	var productCheckedTotal = getCheckedTotal(domProductRadioWrap);
+	var status = 1; //商品和地区都只选择一个
+	if (regionCheckedTotal === 1 && productCheckedTotal > 1) {
+		status = 2; //当地区选择了一个，商品选择了多个的时候
+	} else if (productCheckedTotal === 1 && regionCheckedTotal > 1) {
+		status = 3; //当商品选择了一个，地区选择了多个的时候
+	} else {
+		status = 4; //当商品和地区都选择了多于一个的情况下
+	}
+	return status;
+}
+
+function isFunction(func) {
+	return Object.prototype.toString.call(func) === "[object Function]";
+}
+
+exports.bindCheckBox = bindCheckBox;
+exports.isCheckAllBox = isCheckAllBox;
+exports.getCheckedTotal = getCheckedTotal;
+exports.getCheckStatus = getCheckStatus;
+
+},{"../data/ife31data.js":1}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.sortData = exports.getFilterData = exports.getFilter = undefined;
+
+var _checkbox = require('../js/checkbox.js');
+
+var _ife31data = require('../data/ife31data.js');
+
+var _ife31data2 = _interopRequireDefault(_ife31data);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 //获取过滤条件
 function getFilter(wrap) {
 	var domCheckboxs = wrap.querySelectorAll('input');
 	var domCheckAllBox = wrap.querySelector('input[data-check-type="all"]');
 	var values = [];
-	var _iteratorNormalCompletion3 = true;
-	var _didIteratorError3 = false;
-	var _iteratorError3 = undefined;
+	var _iteratorNormalCompletion = true;
+	var _didIteratorError = false;
+	var _iteratorError = undefined;
 
 	try {
-		for (var _iterator3 = domCheckboxs[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-			var ele = _step3.value;
+		for (var _iterator = domCheckboxs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var ele = _step.value;
 
-			if (isCheckAllBox(ele)) {
+			if ((0, _checkbox.isCheckAllBox)(ele)) {
 				continue;
 			}
 			ele.checked && values.push(ele.value);
 		}
 	} catch (err) {
-		_didIteratorError3 = true;
-		_iteratorError3 = err;
+		_didIteratorError = true;
+		_iteratorError = err;
 	} finally {
 		try {
-			if (!_iteratorNormalCompletion3 && _iterator3.return) {
-				_iterator3.return();
+			if (!_iteratorNormalCompletion && _iterator.return) {
+				_iterator.return();
 			}
 		} finally {
-			if (_didIteratorError3) {
-				throw _iteratorError3;
+			if (_didIteratorError) {
+				throw _iteratorError;
 			}
 		}
 	}
 
 	return values;
-}
-
-//改变table显示
-function changeTable() {
-	var filter = {
-		"region": getFilter(domRegionRadioWrap),
-		"product": getFilter(domProductRadioWrap)
-	};
-	var data = getFilterData(filter);
-	renderTable(data);
 }
 
 //获取过滤后的数据
@@ -224,6 +279,7 @@ function getFilterData(filter) {
 	});
 }
 
+//按key对data排序
 function sortData(key, data) {
 	data.sort(function (a, b) {
 		if (a[key] > b[key]) {
@@ -237,35 +293,70 @@ function sortData(key, data) {
 	return data;
 }
 
+exports.getFilter = getFilter;
+exports.getFilterData = getFilterData;
+exports.sortData = sortData;
+
+},{"../data/ife31data.js":1,"../js/checkbox.js":3}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.changeTable = undefined;
+
+var _checkbox = require('../js/checkbox.js');
+
+var _resolveData = require('../js/resolveData.js');
+
+var domTableWrap = document.getElementById('table-wrapper');
+var domTableHeadFirst = document.getElementById('table-head-first');
+var domTableHeadSecond = document.getElementById('table-head-second');
+var domTableBody = document.getElementById('table-body');
+
+//改变table显示
+function changeTable(wrapObj) {
+	var filter = {};
+	for (var key in wrapObj) {
+		filter[key] = (0, _resolveData.getFilter)(wrapObj[key]);
+	}
+
+	var data = (0, _resolveData.getFilterData)(filter);
+	renderTable(data);
+}
+
 //渲染表格
 function renderTable(data) {
 	var html = '';
-	var regionCheckedTotal = getCheckedTotal(domRegionRadioWrap);
-	var productCheckedTotal = getCheckedTotal(domProductRadioWrap);
-	var status = 1; //商品和地区都只选择一个
-	if (regionCheckedTotal === 1 && productCheckedTotal > 1) {
-		status = 2; //当地区选择了一个，商品选择了多个的时候
-	} else if (productCheckedTotal === 1 && regionCheckedTotal > 1) {
-		status = 3; //当商品选择了一个，地区选择了多个的时候
-	} else {
-		status = 4; //当商品和地区都选择了多于一个的情况下
-	}
+	var status = (0, _checkbox.getCheckStatus)();
 
 	if (status === 2) {
-		sortData('region', data);
+		(0, _resolveData.sortData)('region', data);
 		domTableHeadFirst.innerText = '地区';
 		domTableHeadSecond.innerText = '商品';
 	} else {
-		sortData('product', data);
+		(0, _resolveData.sortData)('product', data);
 		domTableHeadFirst.innerText = '商品';
 		domTableHeadSecond.innerText = '地区';
 	}
 
 	html = data.reduce(function (html, current, index) {
-		html += '<tr>\n\t\t \t\t\t\t<td>' + (status === 2 ? current.region : current.product) + '</td>\n\t\t \t\t\t\t<td>' + (status === 2 ? current.product : current.region) + '</td>\n\t\t \t\t\t\t<td>' + current.sale[0] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[1] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[2] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[3] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[4] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[5] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[6] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[7] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[8] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[9] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[10] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[11] + '</td>\n\t \t\t\t\t</tr>';
+		html += '<tr>\n\t\t\t\t\t\t' + addRowSpan(status, current, index) + '\n\t\t \t\t\t\t<td>' + (status === 2 ? current.product : current.region) + '</td>\n\t\t \t\t\t\t<td>' + current.sale[0] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[1] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[2] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[3] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[4] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[5] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[6] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[7] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[8] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[9] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[10] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[11] + '</td>\n\t \t\t\t\t</tr>';
 		return html;
 	}, html);
 	domTableBody.innerHTML = html;
 }
 
-},{"../data/ife31data.js":1}]},{},[2]);
+function addRowSpan(status, current, index) {
+	var firstTdHtml = '';
+	if ((status === 2 || status === 3) && index === 0) {
+		firstTdHtml += '<td rowspan="3">' + (status === 2 ? current.region : current.product) + '</td>';
+	} else if (status !== 2 && status !== 3) {
+		firstTdHtml += '<td>' + current.product + '</td>';
+	}
+	return firstTdHtml;
+}
+
+exports.changeTable = changeTable;
+
+},{"../js/checkbox.js":3,"../js/resolveData.js":4}]},{},[2]);
