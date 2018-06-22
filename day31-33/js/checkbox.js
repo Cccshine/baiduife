@@ -71,7 +71,11 @@ function getCheckStatus() {
 	} else {
 		status = 4; //当商品和地区都选择了多于一个的情况下
 	}
-	return status;
+	return {
+		status:status,
+		regionCheckedTotal:regionCheckedTotal,
+		productCheckedTotal:productCheckedTotal
+	};
 }
 
 function isFunction(func) {

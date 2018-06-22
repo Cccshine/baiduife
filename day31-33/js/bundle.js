@@ -201,7 +201,11 @@ function getCheckStatus() {
 	} else {
 		status = 4; //当商品和地区都选择了多于一个的情况下
 	}
-	return status;
+	return {
+		status: status,
+		regionCheckedTotal: regionCheckedTotal,
+		productCheckedTotal: productCheckedTotal
+	};
 }
 
 function isFunction(func) {
@@ -328,30 +332,36 @@ function changeTable(wrapObj) {
 //渲染表格
 function renderTable(data) {
 	var html = '';
-	var status = (0, _checkbox.getCheckStatus)();
+	var statusObj = (0, _checkbox.getCheckStatus)();
 
-	if (status === 2) {
-		(0, _resolveData.sortData)('region', data);
+	if (statusObj.status === 2) {
+		data = (0, _resolveData.sortData)('region', data);
 		domTableHeadFirst.innerText = '地区';
 		domTableHeadSecond.innerText = '商品';
 	} else {
-		(0, _resolveData.sortData)('product', data);
+		data = (0, _resolveData.sortData)('product', data);
 		domTableHeadFirst.innerText = '商品';
 		domTableHeadSecond.innerText = '地区';
 	}
 
 	html = data.reduce(function (html, current, index) {
-		html += '<tr>\n\t\t\t\t\t\t' + addRowSpan(status, current, index) + '\n\t\t \t\t\t\t<td>' + (status === 2 ? current.product : current.region) + '</td>\n\t\t \t\t\t\t<td>' + current.sale[0] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[1] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[2] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[3] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[4] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[5] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[6] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[7] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[8] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[9] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[10] + '</td>\n\t\t \t\t\t\t<td>' + current.sale[11] + '</td>\n\t \t\t\t\t</tr>';
+		html += '<tr>\n\t\t\t\t\t' + addRowSpan(statusObj, current, index) + '\n\t \t\t\t\t<td>' + (statusObj.status === 2 ? current.product : current.region) + '</td>\n\t \t\t\t\t<td>' + current.sale[0] + '</td>\n\t \t\t\t\t<td>' + current.sale[1] + '</td>\n\t \t\t\t\t<td>' + current.sale[2] + '</td>\n\t \t\t\t\t<td>' + current.sale[3] + '</td>\n\t \t\t\t\t<td>' + current.sale[4] + '</td>\n\t \t\t\t\t<td>' + current.sale[5] + '</td>\n\t \t\t\t\t<td>' + current.sale[6] + '</td>\n\t \t\t\t\t<td>' + current.sale[7] + '</td>\n\t \t\t\t\t<td>' + current.sale[8] + '</td>\n\t \t\t\t\t<td>' + current.sale[9] + '</td>\n\t \t\t\t\t<td>' + current.sale[10] + '</td>\n\t \t\t\t\t<td>' + current.sale[11] + '</td>\n \t\t\t\t</tr>';
 		return html;
 	}, html);
 	domTableBody.innerHTML = html;
 }
 
-function addRowSpan(status, current, index) {
+function addRowSpan(statusObj, current, index) {
 	var firstTdHtml = '';
-	if ((status === 2 || status === 3) && index === 0) {
-		firstTdHtml += '<td rowspan="3">' + (status === 2 ? current.region : current.product) + '</td>';
-	} else if (status !== 2 && status !== 3) {
+	var status = statusObj.status,
+	    regionCheckedTotal = statusObj.regionCheckedTotal,
+	    productCheckedTotal = statusObj.productCheckedTotal;
+
+	if (status === 2 && index === 0) {
+		firstTdHtml += '<td rowspan=' + productCheckedTotal + '>' + current.region + '</td>';
+	} else if (status === 3 && index === 0 || status === 4 && index % regionCheckedTotal === 0) {
+		firstTdHtml += '<td rowspan=' + regionCheckedTotal + '>' + current.product + '</td>';
+	} else if (status === 1) {
 		firstTdHtml += '<td>' + current.product + '</td>';
 	}
 	return firstTdHtml;
